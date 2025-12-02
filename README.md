@@ -13,7 +13,7 @@ _Figure A1 – Three-tier architecture across two Availability Zones with a publ
 ## B – CloudFormation Deployment Evidence
 
 <p align="center">
-  <img src="images/image-1.png" alt="CloudFormation aws-network-ca2 stack showing CREATE_COMPLETE" width="720" />
+  <img src="images/image-1.png" alt="CloudFormation aws-network-ca2 stack showing CREATE_COMPLETE" width="400" />
 </p>
 
 _Figure B1 – Network stack (`aws-network-ca2`) created successfully._
