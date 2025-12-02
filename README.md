@@ -1,98 +1,104 @@
-A – Cloud Application Architecture Diagram
+# Infrastructure Evidence
 
-![alt text](images/image.png)
-Figure A1: Architecture diagram of the multi-tier application.
-Description: The diagram shows a 3-tier application architecture deployed across 2 Availability zones. It shows an EC2 web server in a public subnet and RDS database in private subnet.
+Consistent sizing and clearer captions for each screenshot. All images are scaled to the same width.
 
-B – CloudFormation Deployment Evidence
+## A – Cloud Application Architecture Diagram
 
-![alt text](images/image-1.png)
+<p align="center">
+  <img src="images/image.png" alt="Three-tier application architecture across two Availability Zones with public web EC2 and private RDS" width="720" />
+</p>
 
-Figure B1: CloudFormation Network Stack – CREATE_COMPLETE
-Description: Screenshot showing successful creation of the aws-network-ca2 stack.
+_Figure A1 – Three-tier architecture across two Availability Zones with a public EC2 web tier and a private RDS database._
 
-![alt text](images/image-2.png)
+## B – CloudFormation Deployment Evidence
 
-Figure B2: CloudFormation Application Stack – CREATE_COMPLETE
-Description: Screenshot showing the aws-application-ca2 stack successfully completed
+<p align="center">
+  <img src="images/image-1.png" alt="CloudFormation aws-network-ca2 stack showing CREATE_COMPLETE" width="720" />
+</p>
 
-![alt text](images/image-3.png)
+_Figure B1 – Network stack (`aws-network-ca2`) created successfully._
 
-Figure B3: CloudFormation Database Stack – CREATE_COMPLETE
-Description: Screenshot showing the aws-database-ca2 successfully deployed.
+<p align="center">
+  <img src="images/image-2.png" alt="CloudFormation aws-application-ca2 stack showing CREATE_COMPLETE" width="720" />
+</p>
 
+_Figure B2 – Application stack (`aws-application-ca2`) created successfully._
 
-![alt text](images/image-4.png)
+<p align="center">
+  <img src="images/image-3.png" alt="CloudFormation aws-database-ca2 stack showing CREATE_COMPLETE" width="720" />
+</p>
 
-Figure B4: Web Tier Output – “This is a Multi-Tier Application”
-Description: Public URL of the EC2 instance showing the Apache-hosted webpage confirming that the web tier is functioning correctly.
+_Figure B3 – Database stack (`aws-database-ca2`) created successfully._
 
+<p align="center">
+  <img src="images/image-4.png" alt="Public web page confirming web tier is running" width="720" />
+</p>
 
-C – CloudFormation Update Evidence
+_Figure B4 – Public URL of the EC2 instance showing the Apache-hosted multi-tier confirmation page._
 
-![alt text](images/image-5.png)
+## C – CloudFormation Update Evidence
 
-Figure C1: CloudFormation EC2 Instance Type and tag Update
-Description: Screenshot showing update successful for upgrading EC2 instance and tag
+<p align="center">
+  <img src="images/image-5.png" alt="CloudFormation stack update for EC2 instance type and tags" width="720" />
+</p>
 
+_Figure C1 – EC2 instance type and tag update applied via CloudFormation._
 
-![alt text](images/image-6.png)
+<p align="center">
+  <img src="images/image-6.png" alt="CloudFormation RDS storage modification from 20 GB to 30 GB" width="720" />
+</p>
 
-Figure C2: CloudFormation RDS Storage Update
-Description: Timeline showing RDS allocated storage expansion from 20 GB to 30 GB, completed using AWS’s ModifyDBInstance process.
+_Figure C2 – RDS allocated storage increased from 20 GB to 30 GB using ModifyDBInstance._
 
+## D – Terraform Deployment Evidence
 
-D – Terraform Deployment Evidence
+<p align="center">
+  <img src="images/image-7.png" alt="Terraform init output in AWS CloudShell" width="720" />
+</p>
 
+_Figure D1 – `terraform init` completed with provider installation._
 
-![alt text](images/image-7.png)
+<p align="center">
+  <img src="images/image-8.png" alt="Terraform plan output listing resources to create" width="720" />
+</p>
 
-Figure D1: Terraform Init Output
-Description: Screenshot of successful terraform init showing provider installation and directory initialisation in AWS CloudShell.
+_Figure D2 – `terraform plan` showing resources for the three-tier architecture._
 
+<p align="center">
+  <img src="images/image-9.png" alt="Terraform apply output confirming 20 resources created" width="720" />
+</p>
 
-![alt text](images/image-8.png)
+_Figure D3 – `terraform apply` created 20 resources including VPC, EC2, and RDS._
 
-Figure D2: Terraform Plan Output
-Description: Screenshot of terraform plan listing all resources to be created in the three-tier architecture.
+<p align="center">
+  <img src="images/image-10.png" alt="Terraform outputs showing IDs, endpoints, and IPs" width="355" />
+  <img src="images/image-11.png" alt="Terraform outputs continued showing RDS endpoint and web public IP" width="355" />
+</p>
 
+_Figure D4 – Terraform output variables: VPC ID, subnet IDs, RDS endpoint, and web public IP._
 
+## E – Terraform Update Evidence
 
-![alt text](images/image-9.png)
-Figure D3: Terraform Apply Output
-Description: Console output confirming that Terraform created 20 resources, including VPC, EC2 instance, and RDS instance.
+<p align="center">
+  <img src="images/image-12.png" alt="Terraform plan showing EC2 update from t2.micro to t3.micro with tag change" width="720" />
+</p>
 
+_Figure E1 – `terraform plan` for EC2 update from t2.micro to t3.micro with tag adjustment._
 
-![alt text](images/image-10.png) ![alt text](images/image-11.png)
+<p align="center">
+  <img src="images/image-13.png" alt="Terraform apply output confirming EC2 update and new public IP" width="720" />
+</p>
 
-Figure D4: Terraform Outputs
-Description: Terraform output variables including VPC ID, subnet IDs, RDS endpoint, and web public IP
+_Figure E2 – `terraform apply` confirms EC2 update completed and new public IP assigned._
 
+<p align="center">
+  <img src="images/image-14.png" alt="Terraform plan showing RDS storage update from 20 GB to 30 GB" width="720" />
+</p>
 
-E – Terraform Update Evidence
+_Figure E3 – `terraform plan` for RDS storage increase from 20 GB to 30 GB._
 
-![alt text](images/image-12.png)
+<p align="center">
+  <img src="images/image-15.png" alt="Terraform apply output confirming RDS storage update" width="720" />
+</p>
 
-Figure E1: Terraform EC2 Update Plan
-Description: Plan output showing in-place modification of EC2 instance from t2.micro to t3.micro and tag added.
-
-
-![alt text](images/image-13.png)
-
-Figure E2: Terraform EC2 Update Apply Output
-Description: Output confirming successful in-place update of EC2 instance and new public IP allocation.
-
-
-
-![alt text](images/image-14.png)
-
-Figure E3: Terraform RDS Storage Update Plan
-Description: Plan output showing RDS storage being updated from 20 GB to 30 GB.
-
-
-![alt text](images/image-15.png)
-
-Figure E4: Terraform RDS Storage Update Apply Output
-Description: Output confirming successful completion of the RDS storage modification.
-
-
+_Figure E4 – `terraform apply` confirms RDS storage modification completed._
