@@ -3,6 +3,7 @@ Figure A1: Architecture diagram of the multi-tier application.
 Description: The diagram shows a 3-tier application architecture deployed across 2 Availability zones. It shows an EC2 web server in a public subnet and RDS database in private subnet.
 
 ![alt text](images/image-1.png)
+
 Figure B1: CloudFormation Network Stack – CREATE_COMPLETE
 Description: Screenshot showing successful creation of the aws-network-ca2 stack.
 
