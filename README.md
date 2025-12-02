@@ -64,6 +64,7 @@ Description: Console output confirming that Terraform created 20 resources, incl
 
 
 ![alt text](images/image-10.png) ![alt text](images/image-11.png)
+
 Figure D4: Terraform Outputs
 Description: Terraform output variables including VPC ID, subnet IDs, RDS endpoint, and web public IP
 
@@ -90,9 +91,8 @@ Description: Plan output showing RDS storage being updated from 20 GB to 30 GB.
 
 
 ![alt text](images/image-15.png)
+
 Figure E4: Terraform RDS Storage Update Apply Output
 Description: Output confirming successful completion of the RDS storage modification.
 
 
-
-![alt text](images/image-16.png)
