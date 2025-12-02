@@ -39,13 +39,13 @@ _Figure B4 – Public URL of the EC2 instance showing the Apache-hosted multi-ti
 ## C – CloudFormation Update Evidence
 
 <p align="center">
-  <img src="images/image-5.png" alt="CloudFormation stack update for EC2 instance type and tags" width="720" />
+  <img src="images/image-5.png" alt="CloudFormation stack update for EC2 instance type and tags" width="400" />
 </p>
 
 _Figure C1 – EC2 instance type and tag update applied via CloudFormation._
 
 <p align="center">
-  <img src="images/image-6.png" alt="CloudFormation RDS storage modification from 20 GB to 30 GB" width="720" />
+  <img src="images/image-6.png" alt="CloudFormation RDS storage modification from 20 GB to 30 GB" width="400" />
 </p>
 
 _Figure C2 – RDS allocated storage increased from 20 GB to 30 GB using ModifyDBInstance._
