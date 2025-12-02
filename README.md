@@ -16,6 +16,7 @@ Description: Screenshot showing the aws-database-ca2 successfully deployed.
 
 
 ![alt text](images/image-4.png)
+
 Figure B4: Web Tier Output – “This is a Multi-Tier Application”
 Description: Public URL of the EC2 instance showing the Apache-hosted webpage confirming that the web tier is functioning correctly.
 
