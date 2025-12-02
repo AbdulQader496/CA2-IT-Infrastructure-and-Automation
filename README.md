@@ -19,13 +19,13 @@ _Figure A1 – Three-tier architecture across two Availability Zones with a publ
 _Figure B1 – Network stack (`aws-network-ca2`) created successfully._
 
 <p align="center">
-  <img src="images/image-2.png" alt="CloudFormation aws-application-ca2 stack showing CREATE_COMPLETE" width="720" />
+  <img src="images/image-2.png" alt="CloudFormation aws-application-ca2 stack showing CREATE_COMPLETE" width="400" />
 </p>
 
 _Figure B2 – Application stack (`aws-application-ca2`) created successfully._
 
 <p align="center">
-  <img src="images/image-3.png" alt="CloudFormation aws-database-ca2 stack showing CREATE_COMPLETE" width="720" />
+  <img src="images/image-3.png" alt="CloudFormation aws-database-ca2 stack showing CREATE_COMPLETE" width="400" />
 </p>
 
 _Figure B3 – Database stack (`aws-database-ca2`) created successfully._
