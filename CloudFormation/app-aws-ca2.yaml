@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  Application Template for EC2 web server in a public subnet and using network resources from a network stack.
+ 
+Parameters:
+ 
+  NetworkStackName:
+    Description: Name of the network stack to import VPC and subnet IDs from
+    Type: String
+    Default: aws-network-ca2
+ 
+  AmazonLinuxAMIID:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+ 
+Resources:
+ 
+  WebServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP access to the web server
+      VpcId:
+        Fn::ImportValue: !Sub ${NetworkStackName}-VPCID
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: CA2-WebServerSG
+ 
+  WebServerInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: !Ref AmazonLinuxAMIID
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          SubnetId:
+            Fn::ImportValue: !Sub ${NetworkStackName}-SubnetID
+          GroupSet:
+            - !Ref WebServerSecurityGroup
+          DeleteOnTermination: true
+      Tags:
+        - Key: Name
+          Value: CA2-WebServer
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+          yum update -y
+          yum install -y httpd
+          systemctl enable httpd
+          systemctl start httpd
+          echo "<h1>This is a Multi Tier Application</h1>" > /var/www/html/index.html
+ 
+Outputs:
+ 
+  WebURL:
+    Description: URL of the web server
+    Value: !Sub 'http://${WebServerInstance.PublicDnsName}'
+ 
+  WebServerSecurityGroupId:
+    Description: Security group ID for the web server (used by DB stack)
+    Value: !Ref WebServerSecurityGroup
+    Export:
+      Name: !Sub '${AWS::StackName}-WebServerSGID'

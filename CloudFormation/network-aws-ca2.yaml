@@ -1,0 +1,110 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  Network Template: VPC with one public subnet and two private subnets
+ 
+Resources:
+ 
+  ## VPC
+ 
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: MultiTierVPC
+ 
+  ## Internet Gateway + route for public subnet
+ 
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+ 
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+ 
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+ 
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: VPCGatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+ 
+  ## Subnets
+ 
+  PublicSubnetAz1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.0.0/24
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      Tags:
+        - Key: Name
+          Value: Public-AZ1
+ 
+  PublicSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetAz1
+      RouteTableId: !Ref PublicRouteTable
+ 
+  PrivateSubnetAz1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: false
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      Tags:
+        - Key: Name
+          Value: Private-AZ1
+ 
+  PrivateSubnetAz2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: 10.0.2.0/24
+      MapPublicIpOnLaunch: false
+      AvailabilityZone: !Select [1, !GetAZs ""]
+      Tags:
+        - Key: Name
+          Value: Private-AZ2
+ 
+# Outputs
+ 
+Outputs:
+ 
+  VPC:
+    Description: VPC ID
+    Value: !Ref VPC
+    Export:
+      Name: !Sub '${AWS::StackName}-VPCID'
+ 
+  PublicSubnet:
+    Description: Public subnet in AZ1 for the web/app EC2 instance
+    Value: !Ref PublicSubnetAz1
+    Export:
+      Name: !Sub '${AWS::StackName}-SubnetID'
+ 
+  PrivateSubnetAz1Out:
+    Description: Private subnet in AZ1 for RDS
+    Value: !Ref PrivateSubnetAz1
+    Export:
+      Name: !Sub '${AWS::StackName}-PrivateSubnet1ID'
+ 
+  PrivateSubnetAz2Out:
+    Description: Extra private subnet in AZ2 required by RDS
+    Value: !Ref PrivateSubnetAz2
+    Export:
+      Name: !Sub '${AWS::StackName}-PrivateSubnet2ID'

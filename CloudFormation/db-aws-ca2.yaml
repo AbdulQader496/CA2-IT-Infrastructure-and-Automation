@@ -1,0 +1,85 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  Database Template for MySQL RDS instance in private subnets,
+  allowing access only from the web application security group.
+ 
+Parameters:
+ 
+  NetworkStackName:
+    Description: Name of the network stack to import VPC and subnet ID
+    Type: String
+    Default: aws-network-ca2
+ 
+  AppStackName:
+    Description: Name of the application stack to import WebServer SG ID
+    Type: String
+    Default: aws-application-ca2
+ 
+  DBName:
+    Type: String
+    Default: inventory
+ 
+  DBUsername:
+    Type: String
+    Default: admin
+ 
+  DBPassword:
+    Type: String
+    NoEcho: true
+    Default: lab-password
+ 
+Resources:
+ 
+  DBAccessSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow MySQL access from web server SG only
+      VpcId:
+        Fn::ImportValue: !Sub ${NetworkStackName}-VPCID
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId:
+            Fn::ImportValue: !Sub ${AppStackName}-WebServerSGID
+      Tags:
+        - Key: Name
+          Value: CA2-DBAccessSG
+ 
+  InventoryDBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnets for RDS MySQL instance
+      SubnetIds:
+        - Fn::ImportValue: !Sub ${NetworkStackName}-PrivateSubnet1ID
+        - Fn::ImportValue: !Sub ${NetworkStackName}-PrivateSubnet2ID
+      Tags:
+        - Key: Name
+          Value: CA2-InventoryDBSubnetGroup
+ 
+  InventoryDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBName: !Ref DBName
+      Engine: mysql
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: 30
+      StorageType: gp2
+      PubliclyAccessible: false
+      MultiAZ: false
+      VPCSecurityGroups:
+        - !Ref DBAccessSecurityGroup
+      DBSubnetGroupName: !Ref InventoryDBSubnetGroup
+      DeletionProtection: false
+      BackupRetentionPeriod: 0
+      Tags:
+        - Key: Name
+          Value: CA2-InventoryDB
+ 
+Outputs:
+ 
+  DBEndpoint:
+    Description: RDS endpoint (hostname) for the MySQL database
+    Value: !GetAtt InventoryDB.Endpoint.Address
